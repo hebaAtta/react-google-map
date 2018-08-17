@@ -1,4 +1,4 @@
-import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import { GoogleApiWrapper} from 'google-maps-react';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom'
 
@@ -16,22 +16,25 @@ export class MapContainer extends Component {
     markers:[],
     Animation:null,
     error:null,
+    users:[],
     InfoWindow:new this.props.google.maps.InfoWindow()
   }
 
   componentDidMount(){
-    const foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll=31.2000924,29.9187387&query=cafe&radius=10000&client_id=DY0JQBSDV3ZX2TEBPSQJL24K50OGEEYPQVSCIX2IBZ1TSV0O&&client_secret=CDQKPG5C5P12SA3102OSYQGYVK4PFWGTYTJ53PROQDWDIS5U&v=20180816'
-    fetch(foursquareURL)
+    const URL = 'https://randomuser.me/api/?results=5'
+    fetch(URL)
     .then(data => {
     if(data.ok) {
       return data.json()
     } else {
+      throw new Error(data.statusText)
       alert("There was an error with the Foursquare API call. Please refresh the page and try again to load Foursquare data.");
     }
+
   })
    .then(data => {
+    this.setState({users: data.results})
     this.loadMap()
-
     this.onclickLoc()
     })
     .catch(err => {
@@ -83,7 +86,7 @@ onclickLoc= ()=>{
   const displayInfowindo = (e) => {
     const {markers} = this.state
     const markerInx =markers.findIndex (m=>m.title.toLowerCase() === e.target.innerText.toLowerCase())
-    here.populateInfoWindo(markers [markerInx],InfoWindow)
+    here.populateInfoWindo(markers[markerInx],InfoWindow)
       }
     document.querySelector ('.locations-list').addEventListener('click',function(e){
       if(e.target&&e.target.nodeName === "LI"){
@@ -186,7 +189,7 @@ addMarkerWithTimeout=(position, timeout)=> {
              title="Type in a category"/>
         <ul    className="locations-list">{
          markers.filter(m=>m.getVisible()).map((m,i)=>
-       (<a><li   key={i}>{m.title}</li></a>))
+       (<li role="link" key={i}  tabIndex="0">{m.title}  </li>))
      }</ul>
        </div>
          <div role="application" className="map   right" ref="map">

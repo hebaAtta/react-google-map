@@ -1,10 +1,10 @@
 import './App.css';
 
-import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
-import Places from './Component/Places'
+import {  GoogleApiWrapper} from 'google-maps-react';
+
 import MapContainer from './Component/MapContainer'
 import React, { Component } from 'react';
-import superagent from 'superagent';
+
 class App extends Component {
   componentDidMount(){
     console.log("heba");
@@ -14,9 +14,10 @@ class App extends Component {
   render() {
 
     return (
-      <div className="App">
+      <div>
 
-        <MapContainer google={this.props.google}
+        <MapContainer role="aria"
+         google={this.props.google}
            />
 
       </div>

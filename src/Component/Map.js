@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 class Map extends Component {
   render() {
     return (
-      <Map google={this.props.google} zoom={14}/>
+      <Map role="aria"
+       google={this.props.google} zoom={14}/>
 
 
 
